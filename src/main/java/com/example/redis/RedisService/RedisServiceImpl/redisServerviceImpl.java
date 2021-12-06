@@ -1,4 +1,7 @@
 package com.example.redis.RedisService.RedisServiceImpl;
 
-public class redisServerviceImpl {
+import com.example.redis.RedisService.redisService;
+
+public class redisServerviceImpl implements redisService {
+
 }
