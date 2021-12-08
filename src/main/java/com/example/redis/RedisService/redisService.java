@@ -1,15 +1,17 @@
 package com.example.redis.RedisService;
 
-import com.example.redis.Domain.User;
+import com.example.redis.model.User;
 
 import java.util.Map;
 
+
 public interface redisService {
 
-    void save(User user);
-    Map<String,User> findAll();
-    User findById(String id);
-    void update(User user);
-    void delete(String id);
+
+    public User save(User user);
+    public User update(User user);
+    public User findUserByUserId(String userId);
+    public User findById(Long id);
+    public void remove(Long id);
 
 }

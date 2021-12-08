@@ -1,50 +1,47 @@
 package com.example.redis.RedisService.RedisServiceImpl;
 
-import com.example.redis.Domain.User;
+import com.example.redis.model.User;
 import com.example.redis.RedisService.redisService;
+import com.example.redis.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Map;
 
+@Transactional
+@Service
 public class redisServerviceImpl implements redisService {
 
-    @Autowired
-    RedisTemplate<String,User> redisTemplate;
+   @Autowired
+   private UserRepository userRepository;
 
-    private HashOperations hashOperations;
-
-
-    public redisServerviceImpl(RedisTemplate<String,User> redisTemplate){
-        this.redisTemplate = redisTemplate;
-        hashOperations = redisTemplate.opsForHash();
-    }
 
 
     @Override
-    public void save(User user) {
-        hashOperations.put("USER", user.getId(), user);
+    public User save(User user)  {
+        return null;
     }
 
     @Override
-    public Map<String, User> findAll() {
-        return hashOperations.entries("USER");
+    public User update(User user) {
+        return null;
     }
 
     @Override
-    public User findById(String id) {
-        return (User) hashOperations.get("USER",id);
+    public User findUserByUserId(String userId) {
+        return null;
     }
 
     @Override
-    public void update(User user) {
-        save(user);
-
+    public User findById(Long id) {
+        return null;
     }
 
     @Override
-    public void delete(String id) {
-        hashOperations.delete("USER",id);
+    public void remove(Long id) {
+
     }
 }
