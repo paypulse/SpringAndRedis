@@ -25,7 +25,10 @@
         <property name="suffix" value=".jsp"/>
     </bean>
 
-    <beans:component-scan base-package="com.example.redis" />
+    <beans:component-scan base-package="com.example.redis" use-default-filters="false">
+        <beans:include-filter type="annotation" expression="org.springframework.stereotype.Controller"></beans:include-filter>
+
+    </beans:component-scan>
 
     <mvc:annotation-driven />
 

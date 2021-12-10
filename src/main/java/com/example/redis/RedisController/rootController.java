@@ -2,15 +2,15 @@ package com.example.redis.RedisController;
 
 
 import com.example.redis.RedisService.redisService;
+import com.example.redis.model.User;
 import com.example.redis.response.CommonResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,7 +23,6 @@ public class rootController {
     private static final Logger logger = LoggerFactory.getLogger(rootController.class);
 
     //redis
-    @Autowired
     private redisService redis;
 
 
@@ -54,21 +53,20 @@ public class rootController {
 //    }
 
 
+    /**
+     * 사용자 등록 (CRUD)
+     *
+     * **/
+    @RequestMapping(value="/registUser", method = RequestMethod.GET)
+    public ResponseEntity<CommonResponse> registUser(HttpServletRequest req, HttpServletResponse res, @RequestBody User user){
 
-
-    @RequestMapping(value="/selectUserList", method = RequestMethod.GET)
-    public ResponseEntity<CommonResponse> selectUserList(HttpServletRequest req, HttpServletResponse res){
-
-        logger.info(req.toString());
-        logger.info(res.toString());
-
-
-
+        redis.save(user);
+        System.out.println(redis.save(user));
 
         return ResponseEntity.ok(CommonResponse.builder()
                 .data("test")
                 .status("SUCCESS")
-                .msg("Insert complate")
+                .msg("registUser")
                 .build());
 
     }
