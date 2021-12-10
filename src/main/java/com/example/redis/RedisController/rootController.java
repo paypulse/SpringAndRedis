@@ -60,8 +60,7 @@ public class rootController {
     @RequestMapping(value="/registUser", method = RequestMethod.GET)
     public ResponseEntity<CommonResponse> registUser(HttpServletRequest req, HttpServletResponse res, @RequestBody User user){
 
-        redis.save(user);
-        System.out.println(redis.save(user));
+
 
         return ResponseEntity.ok(CommonResponse.builder()
                 .data("test")

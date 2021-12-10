@@ -15,6 +15,11 @@
     <mvc:annotation-driven>
         <mvc:message-converters>
             <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter" />
+            <!-- @ResponseBody로 String 처리 할때 한글 처리  -->
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+
+            </bean>
+
         </mvc:message-converters>
     </mvc:annotation-driven>
 
