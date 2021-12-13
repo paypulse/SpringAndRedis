@@ -1,4 +1,4 @@
-package com.example.redis.response;
+package com.example.redis.common.response;
 
 
 import lombok.*;
