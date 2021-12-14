@@ -2,19 +2,15 @@ package com.example.redis.RedisExService.RedisExServiceImpl;
 
 
 import com.example.redis.RedisExService.redisService;
-
 import com.example.redis.model.RedisEx;
-
 import com.example.redis.model.RedisHashEx;
-import jdk.internal.org.objectweb.asm.tree.analysis.Value;
+import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.ListOperations;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.List;
+
 
 @Service
 public class redisServerviceImpl implements redisService {
@@ -28,6 +24,7 @@ public class redisServerviceImpl implements redisService {
     private ListOperations<String,String> listOps;
 
     @Resource(name= "redisTemplate")
+    private HashOperations<String,String,String> hashOps;
 
 
     /**
@@ -40,6 +37,17 @@ public class redisServerviceImpl implements redisService {
             valueOps.set(redisEx.getKey().toString(), redisEx.getValue().toString());
             return "key : " + redisEx.getKey() + ", change value : " + redisEx.getValue();
         }catch(Exception e){
+            return e.toString();
+        }
+
+    }
+
+    @Override
+    public String deleteKey(String key) {
+        try{
+            valueOps.getOperations().delete(key);
+            return "delete key : " + key;
+        }catch (Exception e){
             return e.toString();
         }
 
@@ -65,6 +73,40 @@ public class redisServerviceImpl implements redisService {
         }
     }
 
+    @Override
+    public String stringListLeftPush(RedisEx redisEx) {
+        try{
+            listOps.leftPush(redisEx.getKey(), redisEx.getValue());
+            return listOps.range(redisEx.getKey(),0,-1).toString();
+
+        }catch (Exception e){
+            return e.toString();
+        }
+
+    }
+
+    @Override
+    public String stringListLeftPop(RedisEx redisEx) {
+        try{
+            listOps.leftPop(redisEx.getKey());
+            return listOps.range(redisEx.getKey(), 0,-1).toString();
+        }catch (Exception e){
+            return e.toString();
+        }
+
+    }
+
+    @Override
+    public String stringListRightPop(RedisEx redisEx) {
+        try{
+            listOps.rightPop(redisEx.getKey());
+            return listOps.range(redisEx.getKey(), 0, -1).toString();
+
+        }catch(Exception e){
+            return e.toString();
+        }
+    }
+
 
     /**
      * Hash  Example
@@ -73,12 +115,23 @@ public class redisServerviceImpl implements redisService {
     public String HashSerialize(RedisHashEx redisHashEx) {
 
         try{
+            hashOps.put(redisHashEx.getKey(), redisHashEx.getFeild(), redisHashEx.getValue());
+            return hashOps.get(redisHashEx.getKey(), redisHashEx.getFeild());
 
         }catch(Exception e){
             return e.toString();
         }
 
-        return null;
+    }
+
+    @Override
+    public String HashPutIfAbsent(RedisHashEx redisHashEx) {
+       try{
+           hashOps.putIfAbsent(redisHashEx.getKey(), redisHashEx.getFeild(), redisHashEx.getValue());
+           return hashOps.get(redisHashEx.getKey(),redisHashEx.getFeild());
+       }catch(Exception e){
+           return e.toString();
+       }
     }
 
 
